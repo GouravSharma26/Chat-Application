@@ -48,7 +48,11 @@ cd Chat-Application/backend
 npm install
 ```
 
-3. Create a `.env` file in the `backend` directory with your credentials:
+3. Create a `.env` file in the `backend` directory (you can copy the `.env.example` file) with your credentials:
+```bash
+cp .env.example .env
+```
+Then fill in your actual credentials in the `.env` file:
 ```env
 MONGODB_URI=your_mongodb_connection_string
 PORT=5001
