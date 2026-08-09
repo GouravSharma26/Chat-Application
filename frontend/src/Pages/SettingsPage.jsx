@@ -9,6 +9,7 @@ const PreviewMessage = [
 ]
 const SettingsPage = () => {
   const {theme, setTheme} = useThemeStore();
+  const [previewTheme, setPreviewTheme] = React.useState(theme);
   return (
     <div className='h-screen container mx-auto px-4 pt-20 max-w-5xl'>
       <div className="space-y-6 ">
@@ -22,10 +23,11 @@ const SettingsPage = () => {
             <button
               key={t}
               className={`
-                group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors
-                ${theme === t ? "bg-base-200" : "hover:bg-base-200/50"}
+                group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all border-2
+                ${previewTheme === t ? "bg-base-200" : "hover:bg-base-200/50"}
+                ${theme === t ? "border-primary" : "border-transparent"}
               `}
-              onClick={() => setTheme(t)}
+              onClick={() => setPreviewTheme(t)}
             >
               <div className="relative h-8 w-full rounded-md overflow-hidden" data-theme={t}>
                 <div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
@@ -43,8 +45,17 @@ const SettingsPage = () => {
         </div>
 
         {/* Preview Section */}
-        <h3 className="text-lg font-semibold mb-3">Preview</h3>
-        <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-lg">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-semibold">Preview</h3>
+          <button 
+            className="btn btn-primary btn-sm" 
+            onClick={() => setTheme(previewTheme)}
+            disabled={theme === previewTheme}
+          >
+            {theme === previewTheme ? "Applied" : "Apply Theme"}
+          </button>
+        </div>
+        <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-lg" data-theme={previewTheme}>
           <div className="p-4 bg-base-200">
             <div className="max-w-lg mx-auto">
               {/* Mock Chat UI */}

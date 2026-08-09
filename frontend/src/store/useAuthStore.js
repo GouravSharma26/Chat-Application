@@ -15,18 +15,8 @@ export const useAuthStore = create((set, get) => ({
   socket: null,
 
   checkAuth: async () => {
-    const token = localStorage.getItem("token");
-    console.log("Token:", token);
-    if (!token) {
-      set({ authUser: null, isCheckingAuth: false });
-      return;
-    }
     try {
-      const res = await axiosInstance.get("/auth/check", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axiosInstance.get("/auth/check");
       console.log("Auth check response:", res.data);
       set({ authUser: res.data });
       get().connectSocket();

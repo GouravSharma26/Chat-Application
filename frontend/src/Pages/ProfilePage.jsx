@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Camera, Mail, User } from "lucide-react";
+import { Camera, Mail, User, Image as ImageIcon } from "lucide-react";
+
+const BUILT_IN_AVATARS = [
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Jack",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Jude",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Bandit",
+];
 
 const ProfilePage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
@@ -79,6 +88,28 @@ const ProfilePage = () => {
             <p className="text-sm text-zinc-400">
               {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
             </p>
+          </div>
+
+          {/* Built-in Avatars Section */}
+          <div className="flex flex-col items-center gap-3 pt-6">
+            <div className="flex gap-4 flex-wrap justify-center">
+              {BUILT_IN_AVATARS.map((avatarUrl, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={async () => {
+                    setSelectedImg(avatarUrl);
+                    await updateProfile({ profilePic: avatarUrl });
+                  }}
+                  disabled={isUpdatingProfile}
+                  className={`relative rounded-full overflow-hidden border-2 transition-all hover:scale-110 
+                    ${selectedImg === avatarUrl ? "border-primary shadow-lg" : "border-transparent opacity-80"}
+                  `}
+                >
+                  <img src={avatarUrl} alt={`Avatar ${idx}`} className="w-12 h-12 bg-base-200" />
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-6">
